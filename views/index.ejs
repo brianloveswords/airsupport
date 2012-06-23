@@ -148,18 +148,20 @@
         <div class='replies action-set'>
           <h3>Tracked Replies</h3>
           {{#each replies}}
-             <span class='author'><strong>@{{author}}</strong>
-             {{#if date}} on {{humanDate date}}{{/if}}
-             </span>
+            <div class='reply'>
+              <span class='author'><strong>@{{author}}</strong>
+              {{#if date}}
+              on {{humanDate date}}
+              <a href="https://twitter.com/{{unbound author}}/status/{{unbound statusId}}" target="_blank">(Link to tweet)</a>
+              {{/if}}
+              </span>
 
-             {{#if statusId}}
-             <a href='https://twitter.com/{{unbound author}}/status/{{unbound statusId}}' target="_blank">
-               <blockquote class='well'>{{content}}</blockquote>
-             </a>
-             {{else}}
-               <blockquote class='well'>{{content}}</blockquote>
-             {{/if}}
-          
+              {{#if statusId}}
+              <blockquote class='well'>{{linkify content}}</blockquote>
+              {{else}}
+                <blockquote class='well'>{{linkify content}}</blockquote>
+              {{/if}}
+            </div>
           {{/each}}
         </div>
           
