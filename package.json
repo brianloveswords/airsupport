@@ -1,0 +1,15 @@
+{ "name": "socialsupport",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "connect-redis": "~1.4.0",
+    "ejs": "~0.7.1",
+    "express": "~2.5.10",
+    "mongoose": "~2.7.0",
+    "ntwitter": "~0.3.0",
+    "redis": "~0.7.2",
+    "request": "~2.9.202",
+    "socket.io": "~0.9.6",
+    "winston": "~0.6.1"
+  }
+}

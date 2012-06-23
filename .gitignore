@@ -1,0 +1,6 @@
+.#*
+db/
+node_modules/
+/dump.rdb
+/test-github.js
+/config.json

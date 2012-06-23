@@ -1,0 +1,277 @@
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+body {
+  padding-top: 75px;
+}
+
+blockquote {
+  background: none;
+  padding: 0;
+  border: 0;
+  font-size: 1.1em;
+  line-height: 1.3em;
+  margin: 1em 1em 1.2em;
+}
+
+.nav.monitoring {
+  margin-left: 3em;
+}
+
+.row.headers h1 {
+  border-bottom: 1px solid #ddd;
+}
+
+.upgrade {
+  display: none;
+}
+
+.dropdown img {
+  margin-right: 0.5em;
+}
+
+.heart {
+  position: absolute;
+  opacity: 0;
+  color: red !important;
+  font-size: 1.5em;
+  -webkit-transform: scaleY(0.82);
+  -moz-transform: scaleY(0.82);
+  -ms-transform: scaleY(0.82);
+  -o-transform: scaleY(0.82);
+  transform: scaleY(0.82);
+  -webkit-transition: all 17s;
+  -moz-transition: all 17s;
+  -ms-transition: all 17s;
+  -o-transition: all 17s;
+  transition: all 17s;
+}
+
+.heart.beat {
+  -webkit-transition: all 1.3s;
+  -moz-transition: all 1.3s;
+  -ms-transition: all 1.3s;
+  -o-transition: all 1.3s;
+  transition: all 1.3s;
+  opacity: 1.0;
+}
+
+.claimed {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  opacity: 0.3;
+}
+
+.ticket {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  position: relative;
+  text-shadow: 1px 1px 0 #fff;
+
+  background: #eee;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px 10px 15px;
+  margin: 20px 0;
+}
+
+.ember-view .ember-view:first-child .ticket {
+  margin-top: 0;
+}
+
+
+.dying .ticket {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  opacity: 0.3;
+}
+.dying .ticket .close {
+  display: none;
+}
+
+.ticket:hover {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  background: #edf;
+}
+
+.ticket .close {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  line-height: 14px;
+}
+
+.small-view .ticket {
+  padding: 5px;
+}
+.small-view .ticket h2,
+.small-view .ticket blockquote {
+  display: inline;
+  font-size: 14px;
+  line-height: 18px;
+  margin: 0;
+  padding: 0;
+}
+.small-view .ticket h2 img {
+  display: none;
+}
+
+.span3 br, .span6 br {
+  line-height: 1px;
+}
+
+#incoming-container {
+  position: absolute;
+  max-height: 85%;
+  overflow: auto;
+}
+
+.date {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 2px 5px;
+  font-size: 0.8em;
+  opacity: 0.75;
+}
+
+.blackout {
+  top: 0;
+  left: 0;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.details-container {
+  position: relative;
+  background: white;
+  margin: 5% 10%;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px #aaa;
+  border: 2px solid #ccc;
+  max-height: 80%;
+  overflow: auto;
+}
+
+.details-container h2,
+.details-container h3,
+.details-container h4,
+.details-container .close,
+.details-container .tweet-body,
+.details-container .action-set,
+.details-container .actions {
+  padding: 0.25em 0.5em;
+}
+
+.details-container .close {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  font-size: 2em;
+}
+.details-container .close:hover {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.details-container h2 {
+  border-bottom: 1px solid #ccc;
+}
+
+.details-container .tweet-body {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+}
+
+.details-container .replies .author {
+  padding-left: 1.2em;
+  color: #555;
+}
+
+.details-container .replies blockquote {
+  margin-top: 0;
+}
+
+.details-container .action-set .input {
+  position: relative;
+}
+
+.details-container .action-set textarea {
+  display: block;
+  width: 90%;
+  margin: auto;
+  line-height: 1.4em;
+  font-size: 1.2em;
+}
+
+.details-container .count {
+  position: absolute;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #ccc;
+  display: block;
+  bottom: 3%;
+  right: 6%;
+  text-shadow: 1px 1px #fff;
+}
+
+.tweet-too-long .details-container .count {
+  color: red;
+}
+.details-container button.left {
+  float: left;
+}
+
+.closed .details-container .send-tweet {
+  display: none;
+}
+
+.details-container .reopen {
+  display: none;
+}
+
+.closed .details-container .reopen {
+  display: inline;
+}
+
+.details-container button {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.working button {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  opacity: 0.36;
+}
+
+.details-container .actions {
+  margin: 1em 0;
+  text-align: right;
+}
