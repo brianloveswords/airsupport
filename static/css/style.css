@@ -30,8 +30,8 @@ blockquote {
 }
 
 .heart {
-  position: absolute;
   opacity: 0;
+  position: absolute;
   color: red !important;
   font-size: 1.5em;
   -webkit-transform: scaleY(0.82);
@@ -44,6 +44,7 @@ blockquote {
   -ms-transition: all 17s;
   -o-transition: all 17s;
   transition: all 17s;
+  text-shadow: 1px 1px 1px rgba(255,0,0,0.5) !important;
 }
 
 .heart.beat {

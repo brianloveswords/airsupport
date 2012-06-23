@@ -45,10 +45,17 @@
       
         <span id='monitoring'>
           <script type="text/x-handlebars" data-template-name='monitoring'>
-            <ul class='nav' class='monitoring'>
-              {{#each monitoring}}
-              <li><a href='https://twitter.com/search/{{unbound keyword}}' target='_blank'>{{keyword}}</a></li>
-              {{/each}}
+            <ul class='nav'>
+              <li class='dropdown'>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  Monitoring Keywords<b class="caret"></b>
+                </a>
+
+              <ul class='dropdown-menu' class='monitoring'>
+                {{#each monitoring}}
+                <li><a href='https://twitter.com/search/{{unbound keyword}}' target='_blank'>{{keyword}}</a></li>
+                {{/each}}
+              </ul>
             </ul>
           </script>
         </span>
