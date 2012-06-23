@@ -34,7 +34,7 @@ function setupListeners(socket, session) {
 
     console.dir(users);
 
-    query.sort('createdAt', 1)
+    query.sort('createdAt', -1)
     query.exec(function (err, docs) {
       callback({
         tweets: docs,
