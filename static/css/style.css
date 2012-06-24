@@ -21,7 +21,8 @@ blockquote {
   border-bottom: 1px solid #ddd;
 }
 
-.upgrade {
+.upgrade,
+.some-error {
   display: none;
 }
 

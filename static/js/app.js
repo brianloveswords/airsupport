@@ -502,29 +502,19 @@
   App.upgraded = function () {
     $('.upgrade').slideDown();
   };
-
-
-  socket.emit('init', App.initialize)
-  socket.on('app upgraded', App.upgraded);
-  socket.on('update', App.update);
-  socket.on('tweet removed', App.handleTweetRemoved)
-  socket.on('incoming tweet', App.handleIncomingTweet)
-  socket.on('peer disconnected', function (screenName) {
-    console.log('@' + screenName, 'disconnected');
-    var remaining = App.connectedUsers.users.filter(function (u) {
-      return u.screenName !== screenName;
-    });
-    App.connectedUsers.set('users', remaining);
-  });
-
-  socket.on('heartbeat', function () {
+  App.someError = function () {
+    $('.some-error').slideDown();
+  };
+  App.refresh = function () {
+    window.location = '/?' + Date.now();
+  };
+  App.heartbeat = function () {
     $('.heart').addClass('beat')
     setTimeout(function () {
       $('.heart').removeClass('beat');
     }, 1200);
-  });
-
-  socket.on('peer connected', function (screenName) {
+  };
+  App.peerConnect = function (screenName) {
     console.log('@' + screenName, 'connected');
     var users = App.connectedUsers.get('users').slice();
 
@@ -536,8 +526,25 @@
 
     users.push({ screenName: screenName });
     App.connectedUsers.set('users', users);
-  });
+  };
+  App.peerDisconnect = function (screenName) {
+    console.log('@' + screenName, 'disconnected');
+    var remaining = App.connectedUsers.users.filter(function (u) {
+      return u.screenName !== screenName;
+    });
+    App.connectedUsers.set('users', remaining);
+  };
 
+  socket.emit('init', App.initialize);
+  socket.on('error', App.someError);
+  socket.on('update', App.update);
+  socket.on('force refresh', App.refresh);
+  socket.on('app upgraded', App.upgraded);
+  socket.on('peer disconnected', App.peerDisconnect);
+  socket.on('peer connected', App.peerConnect);
+  socket.on('incoming tweet', App.handleIncomingTweet)
+  socket.on('tweet removed', App.handleTweetRemoved)
+  socket.on('heartbeat', App.heartbeat);
 
   $('body').on('keyup', function (event) {
     if (event.keyCode !== 27) return;
@@ -545,5 +552,4 @@
     App.detailsView.closeModal();
   });
 
-  $('button.close').tooltip({});
 }(window, Ember, Handlebars, io.connect());

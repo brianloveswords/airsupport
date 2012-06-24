@@ -20,8 +20,10 @@ var TWITTER_CALLBACK_URL = config.twitter_callback_url;
 var connectedClients = []
 
 function setupListeners(socket, session) {
-  // #TODO: send message about bad authentication.
-  if (!session || !session.user) return;
+  if (!session || !session.user) {
+    socket.emit('bad auth');
+    return;
+  }
 
   connectedClients.push(socket);
   socket.broadcast.emit('peer connected', session.user.screen_name);
