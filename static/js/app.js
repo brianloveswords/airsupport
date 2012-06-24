@@ -280,6 +280,7 @@
       model.set('closed', true);
       model.sync();
       App.TweetViews[model.get('_id')].update();
+      this.closeModal();
     },
   });
 
