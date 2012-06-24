@@ -138,16 +138,36 @@
         </h2>
 
         <div class='tweet-body well'>
-          <blockquote>
+          <div class='tweet-actions'>
+            <button class='quote-retweet' {{action "quoteRetweet"}}>
+              <img src="quote.svg" alt='quote retweet'>
+            </button>
+            <button class='retweet' {{action "retweet"}} {{bindAttr disabled="retweeted"}}>
+              <img src='retweet.svg' alt='retweet'>
+            </button>
+          </div>
+          <blockquote class='original-tweet'>
             {{linkify text}}
           </blockquote>
           <a href="https://twitter.com/{{unbound user}}/status/{{unbound statusId}}" target="_blank">Link to tweet</a>
         </div>
 
-        {{#if replies}}
         <div class='replies action-set'>
           <h3>Tracked Replies</h3>
+          
           {{#each replies}}
+            {{#if retweet}}
+            <div class='retweet'>
+              <p>
+                <img src='retweet.svg' alt='retweet'> by <strong>@{{author}}</strong>
+                {{#if date}} on {{humanDate date}}
+                <a href="https://twitter.com/{{unbound author}}/status/{{unbound statusId}}" target="_blank">(Link to tweet)</a>
+                {{/if}}
+              </p>
+            </div>
+
+            {{else}}
+            
             <div class='reply'>
               <span class='author'><strong>@{{author}}</strong>
               {{#if date}}
@@ -155,17 +175,13 @@
               <a href="https://twitter.com/{{unbound author}}/status/{{unbound statusId}}" target="_blank">(Link to tweet)</a>
               {{/if}}
               </span>
-
-              {{#if statusId}}
               <blockquote class='well'>{{linkify content}}</blockquote>
-              {{else}}
-                <blockquote class='well'>{{linkify content}}</blockquote>
-              {{/if}}
             </div>
+
+            {{/if}}
+            
           {{/each}}
         </div>
-          
-        {{/if}}
        {{/with}}
 
         <div class='send-tweet action-set'>
@@ -182,11 +198,11 @@
               Close as Resolved
             </button>
             
-            <button class='btn btn-large' {{action "sendTweetAndClose"}}>
+            <button class='btn btn-large send' {{action "sendTweetAndClose"}} {{bindAttr disabled="working"}}>
               <i class='icon-comment'></i> Send &amp; Close
             </button>
             
-            <button class='btn btn-large btn-primary' {{action "sendTweet"}}>
+            <button class='btn btn-large btn-primary send' {{action "sendTweet"}} {{bindAttr disabled="working"}}>
               <i class='icon-comment icon-white'></i> Send
             </button>
           </div>

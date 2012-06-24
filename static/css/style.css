@@ -199,6 +199,7 @@ blockquote {
 }
 
 .details-container .tweet-body {
+  position: relative;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #ccc;
   border-radius: 0;
@@ -211,6 +212,35 @@ blockquote {
 
 .details-container .replies blockquote {
   margin-top: 0;
+}
+
+.details-container .replies {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  opacity: 0;
+  height: 0;
+}
+
+.has-replies .details-container .replies {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  opacity: 1;
+  height: auto;
+}
+
+.replies .retweet img {
+  width: 1.3em;
+}
+
+.replies p {
+  margin-left: 2em;
+  font-size: 1.3em;
 }
 
 .details-container .action-set .input {
@@ -263,7 +293,9 @@ blockquote {
   transition: all 0.3s;
 }
 
-.working button {
+.not-modified button.send,
+.tweet-too-long button.send,
+.working button.send {
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -ms-transition: all 0.3s;
@@ -275,4 +307,24 @@ blockquote {
 .details-container .actions {
   margin: 1em 0;
   text-align: right;
+}
+
+.tweet-actions {
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+}
+.tweet-actions button {
+  display: block;
+}
+.tweet-actions button img {
+  width: 2em;
+}
+.retweeted .tweet-actions .retweet {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  opacity: 0.36;
 }

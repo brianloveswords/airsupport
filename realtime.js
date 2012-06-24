@@ -80,6 +80,7 @@ function setupListeners(socket, session) {
     });
   });
 
+
   /**
    * `outgoing tweet`: send an outgoing tweet and store a relationship to the
    * incoming tweet.
@@ -87,23 +88,34 @@ function setupListeners(socket, session) {
 
   socket.on('outgoing tweet', function (msg, callback) {
     var user = session.user;
-
     var oauth = {
       consumer_key: TWITTER_CONSUMER_KEY,
       consumer_secret: TWITTER_CONSUMER_SECRET,
       token: session.user.oauth_token,
       token_secret: session.user.oauth_token_secret
     }
-    var url = 'https://api.twitter.com/1/statuses/update.json'
-    var opts = {
-      url: url,
-      oauth: oauth,
-      form: {
-        status: msg.outgoing,
-        in_reply_to_status_id: msg.for.statusId,
-      },
-      headers: { accept: 'application/json' }
-    };
+
+    var url, opts;
+    if (msg.type === 'retweet') {
+      url = 'https://api.twitter.com/1/statuses/retweet/' + msg.for.statusId + '.json';
+      opts = {
+        url: url,
+        oauth: oauth,
+        headers: { accept: 'application/json' }
+      };
+    }
+    else {
+      url = 'https://api.twitter.com/1/statuses/update.json'
+      opts = {
+        url: url,
+        oauth: oauth,
+        form: {
+          status: msg.outgoing,
+          in_reply_to_status_id: msg.for.statusId,
+        },
+        headers: { accept: 'application/json' }
+      }
+    }
 
     // do our best to post a new status on behalf of a user
     // if it succeeds, find the tweet this is in response to and
@@ -124,6 +136,7 @@ function setupListeners(socket, session) {
         author: body.user.screen_name,
         content: body.text
       }
+      if (msg.type === 'retweet') reply.retweet = true;
 
       Tweet.findById(msg.for._id, function (err, doc) {
         doc.replies = doc.replies || [];

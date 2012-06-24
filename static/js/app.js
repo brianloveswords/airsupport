@@ -37,6 +37,16 @@
       return !this.get('closed');
     }.property('open'),
 
+    hasReplies: function () {
+      return this.get('replies').length > 0;
+    }.property('replies'),
+
+    retweeted: function () {
+      return !!this.get('replies').filter(function (r) {
+        return r.author === App.user.screen_name && r.retweet === true;
+      }).length;
+    }.property('replies'),
+
     confirm: function () {
       this.set('confirmed', true);
       this.set('confirmedBy', App.user.get('screen_name'));
@@ -100,9 +110,15 @@
 
   App.DetailsView = Ember.View.extend({
     templateName: 'tweet-details',
-    classNameBindings: ['tweetTooLong', 'working', 'model.closed'],
+    classNameBindings: ['tweetTooLong', 'working', 'notModified', 'hasReplies', 'retweeted', 'model.closed'],
 
     working: false,
+
+    notModified: true,
+
+    hasRepliesBinding: 'model.hasReplies',
+
+    retweetedBinding: 'model.retweeted',
 
     tweetTooLong: function () {
       if (this.get('remaining') < 1) return true;
@@ -114,8 +130,8 @@
      */
 
     outgoingTweet: function (value) {
-      if (value) return $('.outgoing-tweet').val(value)
-      return $('.outgoing-tweet').val();
+      if (value) return this.$('.outgoing-tweet').val(value)
+      return this.$('.outgoing-tweet').val();
     },
 
     // events
@@ -127,6 +143,7 @@
       var $ = this.$.bind(this);
       var value = this.outgoingTweet();
       this.set('remaining', 140 - value.length);
+      this.set('notModified', false);
     },
 
     stopBubble: function (event) { event.stopPropagation(); },
@@ -138,6 +155,51 @@
     closeModal: function (event) { this.remove(); },
 
     /**
+     * prepare a quote retweet
+     */
+    quoteRetweet: function (event) {
+      var model = this.get('model');
+      var user = model.get('user');
+      var text = model.get('text');
+      this.outgoingTweet(['RT', '@'+user, text].join(' '));
+      this.countChars();
+      this.$('.outgoing-tweet').focus();
+    },
+
+    /**
+     * send a retweet
+     */
+    retweet: function (event, callback) {
+      callback = callback || function () { }
+
+      if (this.get('working') || this.get('retweeted')) return;
+      this.set('working', true);
+
+      var model = this.get('model');
+      var msg = {
+        for: model.values(),
+        type: 'retweet'
+      }
+
+      model.get('replies').pushObject({
+        author: App.user.screen_name,
+        retweet: true
+      });
+      model.set('hasReplies', true);
+      model.set('retweeted', true);
+
+      console.log('sending retweet to socket');
+      socket.emit('outgoing tweet', msg, function (response) {
+        if (response.error)
+          return alert('there was an error retweeting. try to refesh the page');
+        console.log('retweet sent');
+        model.update(response.doc);
+        this.set('working', false);
+        callback();
+      }.bind(this));
+    },
+
+    /**
      * send a tweet and store as a reply on the model.
      * updates the client side before sending to the server,
      * then updates again with link to tweet upon success
@@ -147,7 +209,7 @@
       callback = callback || function () { }
 
       // don't try to do anything if we're already working on sending a reply
-      if (this.get('working')) return;
+      if (this.get('working') || this.get('tweetTooLong') || this.get('notModified')) return;
       this.set('working', true);
 
       var model = this.get('model');
@@ -158,6 +220,7 @@
 
       // reset the default tweet
       this.outgoingTweet(this.defaultTweet);
+      this.set('notModified', true);
 
       console.log('sending to socket');
       socket.emit('outgoing tweet', msg, function (response) {
@@ -176,6 +239,7 @@
         author: App.user.screen_name,
         content: msg.outgoing,
       });
+      model.set('hasReplies', true);
     },
 
     /**
