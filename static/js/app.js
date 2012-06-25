@@ -553,4 +553,4 @@
     App.detailsView.closeModal();
   });
 
-}(window, Ember, Handlebars, io.connect());
+}(window, Ember, Handlebars, io.connect(websocketAddress));

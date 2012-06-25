@@ -3,7 +3,7 @@ var express = require('express');
 var inspect = require('./utils.js').inspect;
 var app = express.createServer();
 var RedisStore = require('connect-redis')(express);
-
+ 
 var routes = require('./routes.js');
 var io = require('./realtime.js')(app);
 

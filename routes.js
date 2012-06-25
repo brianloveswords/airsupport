@@ -15,6 +15,7 @@ var TWITTER_CALLBACK_URL = config.twitter_callback_url;
 exports.index = function index(req, resp) {
   var sess = req.session.user;
   resp.render('index.ejs', {
+    websocketAddress: config.websocket_address,
     user: {
       token: sess.token,
       token_secret: sess.token_secret,
